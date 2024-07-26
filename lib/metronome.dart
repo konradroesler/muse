@@ -1,4 +1,5 @@
 import "dart:async";
+
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 
@@ -15,7 +16,6 @@ class _MetronomeState extends State<Metronome> {
   int _tempo = 120;
   bool _running = false;
   late Timer _timer;
-  TextEditingController _controller = TextEditingController();
 
   void _runCounter() {
     int milliseconds = (60000/_tempo).round();
@@ -37,20 +37,7 @@ class _MetronomeState extends State<Metronome> {
       _runCounter();
     }
   }
-
-  @override
-  void initState() {
-    super.initState();
-    _controller.text = "$_tempo"; 
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    _controller.dispose();
-    super.dispose();
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return SafeArea(

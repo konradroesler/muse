@@ -34,11 +34,11 @@ class _MuseNavigationBarState extends State<MuseNavigationBar> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.watch_later),
-            label: "Metronome",
+            label: "",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.speed),
-            label: "Tuner",
+            label: "",
           ),
         ],
         currentIndex: _selectedIndex,
