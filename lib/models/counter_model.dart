@@ -4,30 +4,35 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 
 class CounterModel extends ChangeNotifier {
-  int _count = 1;
-  int get count => _count;
-  int _tempo = 120;
-  int get tempo => _tempo;
-  bool _running = false;
-  bool get running => _running;
+  int count = 1;
+
+  int tempo = 120;
+
+  bool running = false;
+
   late Timer _timer;
 
-  void _runCounter() {
-    int milliseconds = (60000/_tempo).round();
+  void runCounter() {
+    int milliseconds = (60000/tempo).round();
     _timer = Timer.periodic(Duration(milliseconds: milliseconds), (timer) {
-        _count < 4 ? _count++ : _count = 1;
-        SystemSound.play(SystemSoundType.click);
+      count < 4 ? count++ : count = 1;
+      notifyListeners();
+      SystemSound.play(SystemSoundType.click);
     });
+    notifyListeners();
   }
 
-  void _stopCounter() {
+  void stopCounter() {
     _timer.cancel();
+    notifyListeners();
   }
 
   void updateCounter() {
-    if (_running) {
-      _stopCounter();
-      _runCounter();
+    if (running) {
+      stopCounter();
+      runCounter();
+    } else {
+      notifyListeners();
     }
   }
 }
