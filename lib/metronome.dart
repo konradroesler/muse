@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
-import "package:provider/provider.dart";
-
-import "models/counter_model.dart";
+import "package:flutter/scheduler.dart";
+import "package:flutter/services.dart";
 
 class Metronome extends StatefulWidget {
   const Metronome({super.key});
@@ -10,12 +9,66 @@ class Metronome extends StatefulWidget {
   State<Metronome> createState() => _MetronomeState();
 }
 
-class _MetronomeState extends State<Metronome> {
+class _MetronomeState extends State<Metronome> with SingleTickerProviderStateMixin {
+
+  Ticker? _ticker;
+  double _bpm = 60;
+  int _currentTick = 1;
+  double _intervalMs = 1000;
+  double _lastElapsedTime = 0;
+  double _lastPureInterval = 1000;
+  bool _running = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _ticker = createTicker(_tick);
+    _startTicker();
+  }
+
+  void _startTicker() {
+    _intervalMs = 60000 / _bpm;
+    _ticker?.start();
+  }
+  
+  double _adjustedInterval() {
+    return (_lastPureInterval + _intervalMs)/2;
+  }
+
+  void _tick(Duration elapsed) {
+    double elapsedTime = elapsed.inMilliseconds.toDouble();
+    if (elapsedTime - _lastElapsedTime >= _adjustedInterval()) {
+      _lastPureInterval = _intervalMs;
+      _lastElapsedTime = elapsedTime;
+      if (_running) {
+        _playTickSound();
+        setState(() {
+          _currentTick < 4 ? _currentTick++ : _currentTick = 1;
+        });
+      }
+    }
+  }
+
+  void _playTickSound() {
+    SystemSound.play(SystemSoundType.click);
+  }
+
+  void _updateBpm(double bpm) {
+    setState(() {
+      _bpm = bpm;
+      _intervalMs = 60000 / _bpm;
+    });
+  }
+
+  @override
+  void dispose() {
+    _ticker?.dispose();
+    super.dispose();
+  }
   
   @override
   Widget build(BuildContext context) {
-    return Consumer<CounterModel>(
-      builder: (context, value, child) => SafeArea(
+    return SafeArea(
         minimum: EdgeInsets.all(16),
         child: Center(
           child: Column(
@@ -31,53 +84,50 @@ class _MetronomeState extends State<Metronome> {
                     iconSize: 50,
                     color: Colors.black,
                     onPressed: () {
-                      final counter = context.read<CounterModel>();
-                      value.count > 0 ? value.count : null;
-                      counter.updateCounter();
+                      setState(() {
+                        _bpm > 0 ? _bpm-- : null;
+                      });
                     }
                   ),
-                  SizedBox(width: 100, child: Center(child: Text("${value.tempo}", style: TextStyle(fontSize: 40)))),
+                  SizedBox(width: 100, child: Center(child: Text("${_bpm.toInt()}", style: TextStyle(fontSize: 40)))),
                   IconButton(
                     icon: Icon(Icons.add),
                     iconSize: 50,
                     color: Colors.black,
                     onPressed: () {
-                      final counter = context.read<CounterModel>();
-                      value.tempo < 300 ? value.tempo++ : null;
-                      counter.updateCounter();
+                      setState(() {
+                        _bpm < 300 ? _bpm++ : null;
+                      });
                     }
                   ),
                 ]
               ))),
               Slider(
-                value: value.tempo.toDouble(),
+                value: _bpm.toDouble(),
                 max: 300,
                 activeColor: Colors.black,
                 onChanged: (double value) {
-                  final counter = context.read<CounterModel>();
-                  counter.tempo = value.toInt(); 
-                  counter.updateCounter();
+                  _updateBpm(value);
                 } 
               ),
               Expanded(flex: 1, child: Center(
-                child: Text("${value.count}", style: TextStyle(fontSize: 40))
+                child: Text("$_currentTick", style: TextStyle(fontSize: 40))
               )),
               Expanded(flex: 1, child:  Center(
                 child: IconButton(
-                  icon: value.running ? Icon(Icons.pause) : Icon(Icons.play_arrow),
+                  icon: _running ? Icon(Icons.pause) : Icon(Icons.play_arrow),
                   iconSize: 80,
                   color: Colors.black,
                   onPressed: () {
-                    final counter = context.read<CounterModel>();
-                    value.running = !value.running;
-                    value.running ? counter.runCounter() : counter.stopCounter();
+                    setState(() {
+                      _running = !_running;
+                    });
                   }
                 )
               ))
             ]
           )
         ),
-     )
-    );
-  }
+      );
+    }
 }

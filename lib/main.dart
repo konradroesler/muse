@@ -1,14 +1,8 @@
 import 'package:muse/navigation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'models/counter_model.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(create: (context) => CounterModel(),
-    child: const Muse(),
-  ));
+  runApp(Muse());
 }
 
 class Muse extends StatelessWidget {
