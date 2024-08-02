@@ -1,6 +1,6 @@
+import "package:audioplayers/audioplayers.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
-import "package:flutter/services.dart";
 
 class Metronome extends StatefulWidget {
   const Metronome({super.key});
@@ -18,6 +18,10 @@ class _MetronomeState extends State<Metronome> with SingleTickerProviderStateMix
   double _lastElapsedTime = 0;
   double _lastPureInterval = 1000;
   bool _running = false;
+
+  bool _audioPlayerToggle = false;
+  final AudioPlayer _audioPlayer1 = AudioPlayer();
+  final AudioPlayer _audioPlayer2 = AudioPlayer();
 
   @override
   void initState() {
@@ -41,16 +45,22 @@ class _MetronomeState extends State<Metronome> with SingleTickerProviderStateMix
       _lastPureInterval = _intervalMs;
       _lastElapsedTime = elapsedTime;
       if (_running) {
-        _playTickSound();
         setState(() {
           _currentTick < 4 ? _currentTick++ : _currentTick = 1;
         });
+        _playTickSound();
       }
     }
   }
 
-  void _playTickSound() {
-    SystemSound.play(SystemSoundType.click);
+  void _playTickSound() async {
+    if (_audioPlayerToggle) {
+    _currentTick == 1 ? await _audioPlayer1.play(AssetSource("audio/metronome_high.mp3")) : await _audioPlayer1.play(AssetSource("audio/metronome_base.mp3"));
+    _audioPlayerToggle = !_audioPlayerToggle;
+    } else {
+    _currentTick == 1 ? await _audioPlayer2.play(AssetSource("audio/metronome_high.mp3")) : await _audioPlayer2.play(AssetSource("audio/metronome_base.mp3"));
+    _audioPlayerToggle = !_audioPlayerToggle;
+    }
   }
 
   void _updateBpm(double bpm) {
