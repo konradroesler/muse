@@ -4,16 +4,12 @@ sealed class MetronomeEvent {
   const MetronomeEvent();
 }
 
-final class MetronomeStarted extends MetronomeEvent {
-  const MetronomeStarted();
+final class MetronomeTurnedOn extends MetronomeEvent {
+  const MetronomeTurnedOn();
 }
 
-final class MetronomePaused extends MetronomeEvent {
-  const MetronomePaused();
-}
-
-final class MetronomeResumed extends MetronomeEvent {
-  const MetronomeResumed();
+final class MetronomeTurnedOff extends MetronomeEvent {
+  const MetronomeTurnedOff();
 }
 
 final class MetronomeTempoChanged extends MetronomeEvent {

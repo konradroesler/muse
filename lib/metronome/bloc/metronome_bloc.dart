@@ -1,102 +1,76 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:equatable/equatable.dart';
-import 'package:muse/metronome/metronome_ticker.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/scheduler.dart';
 
 part 'metronome_event.dart';
 part 'metronome_state.dart';
 
-class MetronomeBloc extends Bloc<MetronomeEvent, MetronomeState> {
-  MetronomeBloc() :
-    super(const MetronomeInitial(120, 1)) {
-    _clock = Ticker(_onTick);
-    on<MetronomeStarted>(_onStarted);
-    on<MetronomePaused>(_onPaused);
-    on<MetronomeResumed>(_onResumed);
+class MetronomeBloc extends Bloc<MetronomeEvent, MetronomeState>{
+  MetronomeBloc() : super(MetronomeOff(120, 1)) {
+    on<MetronomeTurnedOn>(_onTurnedOn);
+    on<MetronomeTurnedOff>(_onTurnedOff);
     on<MetronomeTempoChanged>(_onTempoChanged);
-    on<_MetronomeTicked>(_onTicked);
     on<MetronomeTempoIncrement>(_onTempoIncrement);
     on<MetronomeTempoDecrement>(_onTempoDecrement);
+    on<_MetronomeTicked>(_onTicked);
   }
 
-  int _tick = 1;
   double _tempo = 120;
+  int _tick = 1;
 
-  MetronomeTicker? _ticker;
-  StreamSubscription<int>? _tickerSubscription;
-
-  Duration _elapsed = Duration.zero;
+  Ticker? _ticker; 
   Duration _lastTick = Duration.zero;
-  late Ticker _clock;
-
-  void _onTick(Duration elapsed) {
-    _elapsed = elapsed;
-  }
-
+  Duration _lastPureInterval = Duration(milliseconds: 60000~/120);
+  
   @override 
   Future<void> close() {
-    _clock.dispose();
-    _tickerSubscription?.cancel();
+    _ticker?.dispose();
     return super.close();
   }
 
-  void _onStarted(MetronomeStarted event, Emitter<MetronomeState> emit) {
-    // very first Tick
-    emit(MetronomeRun(_tempo, _tick));
-    // start the clock
-    _clock.start();
-    // start metronome ticker
-    _tickerSubscription?.cancel();
-    _ticker = MetronomeTicker(tempo: _tempo);
-    _tickerSubscription = _ticker
-      ?.tick(tempo: _tempo)
-      .listen((tick) => add(_MetronomeTicked(tick: tick)));
+  Duration _adjustedInterval() {
+    return (_lastPureInterval + Duration(milliseconds: 60000~/_tempo))~/2;
   }
 
-  void _onPaused(MetronomePaused event, Emitter<MetronomeState> emit) {
-    if (state is MetronomeRun) {
-      _clock.stop();
-      _tickerSubscription?.pause();
-      emit(MetronomePause(_tempo, _tick));
-    }
+  void _checkForTick(Duration elapsed) {
+     if (elapsed - _lastTick > _adjustedInterval()) {
+      add(_MetronomeTicked(tick: _tick));     
+      _lastTick = elapsed;
+      _lastPureInterval = Duration(milliseconds: 60000~/_tempo);
+     }
   }
-
-  void _onResumed(MetronomeResumed event, Emitter<MetronomeState> emit) {
-    if (state is MetronomePause) {
-      _clock.start();
-      _tickerSubscription?.resume();
-      emit(MetronomeRun(_tempo, _tick));
-    }
+  
+  void _onTurnedOn(event, emit) {
+    _tick = 0;
+    _lastTick = Duration(minutes: -1);
+    _ticker = Ticker(_checkForTick);
+    _ticker?.start();
+    emit(MetronomeOn(_tempo, _tick));
   }
-
-  void _onTempoChanged(MetronomeTempoChanged event, Emitter<MetronomeState> emit) {
+  void _onTurnedOff(event, emit) {
+    _ticker?.stop();
+    emit(MetronomeOff(_tempo, _tick));
+  }
+  void _onTempoChanged(event, emit) {
     _tempo = event.tempo;
-    _tickerSubscription?.cancel(); 
-    if (state is MetronomePause) {
-      add(MetronomePaused());
-    } else if (state is MetronomeRun) {
-      if (_elapsed - _lastTick < Duration(milliseconds: (60000/_tempo).toInt())) {
-        add(_MetronomeTicked(tick: _tick+1));
-      }
+    if (state is MetronomeOff) {
+      emit(MetronomeOff(_tempo, _tick));
+    } else if (state is MetronomeOn) {
+      emit(MetronomeOn(_tempo, _tick));
     }
   }
 
-  void _onTempoIncrement(MetronomeTempoIncrement event, Emitter<MetronomeState> emit) {
-    _tempo < 300 ? _tempo++ : null;
-    add(MetronomeTempoChanged(tempo: _tempo));
+  void _onTempoIncrement(event, emit) {
+    _tempo < 300 ? add(MetronomeTempoChanged(tempo: _tempo+1)) : null; 
+  }
+  void _onTempoDecrement(event, emit) {
+    _tempo > 0 ? add(MetronomeTempoChanged(tempo: _tempo-1)) : null;
   }
 
-  void _onTempoDecrement(MetronomeTempoDecrement event, Emitter<MetronomeState> emit) {
-    _tempo > 0 ? _tempo-- : null;
-    add(MetronomeTempoChanged(tempo: _tempo));
+  void _onTicked(event, emit) {
+    _tick = ((_tick ) % 4) + 1;
+    emit(MetronomeOn(_tempo, _tick));
   }
-
-  void _onTicked(_MetronomeTicked event, Emitter<MetronomeState> emit) {
-    _tick = event.tick % 4 + 1;
-    _lastTick = _elapsed;
-    emit(MetronomeRun(_tempo, _tick));
-  }
-
 }
+
+

@@ -9,22 +9,15 @@ sealed class MetronomeState extends Equatable {
   List<Object> get props => [tempo, tick];
 }
 
-final class MetronomeInitial extends MetronomeState {
-  const MetronomeInitial(super.tempo, super.tick);
-
-  @override 
-  String toString() => 'MetronomeInitial { tempo: $tempo, tick: $tick }';
-}
-
-final class MetronomePause extends MetronomeState {
-  const MetronomePause(super.tempo, super.tick);
+final class MetronomeOff extends MetronomeState {
+  const MetronomeOff(super.tempo, super.tick);
 
   @override 
   String toString() => 'MetronomePause { tempo: $tempo, tick: $tick }';
 }
 
-final class MetronomeRun extends MetronomeState {
-  const MetronomeRun(super.tempo, super.tick);
+final class MetronomeOn extends MetronomeState {
+  const MetronomeOn(super.tempo, super.tick);
 
   @override
   String toString() => 'MetronomeRun { tempo: $tempo, tick: $tick }';

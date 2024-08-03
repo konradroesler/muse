@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:muse/metronome/metronome.dart';
@@ -12,9 +13,10 @@ class MetronomeView extends StatelessWidget {
         minimum: EdgeInsets.all(16),
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Expanded(flex: 1, child: Center(
+              Center(
                 child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -24,14 +26,14 @@ class MetronomeView extends StatelessWidget {
                     iconSize: 50,
                     color: Colors.black,
                     onPressed: () {
-                        context.read<MetronomeBloc>().add(MetronomeTempoIncrement());
+                        context.read<MetronomeBloc>().add(MetronomeTempoDecrement());
                     }
                   ),
                   SizedBox(width: 100, child: Center(
-                      child: BlocSelector<MetronomeBloc, MetronomeState, int>(
-                        selector: (state) => state.tick,
+                      child: BlocSelector<MetronomeBloc, MetronomeState, double>(
+                        selector: (state) => state.tempo,
                         builder: (context, state) {
-                          return Text("$state", style: TextStyle(fontSize: 40));
+                          return Text("${state.toInt()}", style: TextStyle(fontSize: 40));
                       }
                       ))),
                   IconButton(
@@ -39,11 +41,11 @@ class MetronomeView extends StatelessWidget {
                     iconSize: 50,
                     color: Colors.black,
                     onPressed: () {
-                        context.read<MetronomeBloc>().add(MetronomeTempoDecrement());
+                        context.read<MetronomeBloc>().add(MetronomeTempoIncrement());
                     }
                   ),
                 ]
-              ))),
+              )),
               BlocSelector<MetronomeBloc, MetronomeState, double>(
                 selector: (state) => state.tempo,
                 builder: (context, state) {
@@ -57,50 +59,44 @@ class MetronomeView extends StatelessWidget {
                   );
                 }
               ),
-              Expanded(flex: 1, child: Center(
+              Center(
                 child: BlocSelector<MetronomeBloc, MetronomeState, int>(
                   selector: (state) => state.tick,
                   builder: (context, state) {
-                    return Text("$state", style: TextStyle(fontSize: 40));
+                    final random = Random();
+                    return Container(
+                      width: 100,
+                      decoration: BoxDecoration(color: Color.fromRGBO(random.nextInt(256), random.nextInt(256), random.nextInt(256), 1)),
+                      child: Center(child: Text("$state", style: TextStyle(fontSize: 40)))
+                    );
                   }
                 )
-              )),
-              Expanded(flex: 1, child:  Center(
+              ),
+              Center(
                 child: BlocBuilder<MetronomeBloc, MetronomeState>(
                   buildWhen: (prev, state) => prev.runtimeType != state.runtimeType,
                   builder: (context, state) {
                     return switch (state) {
-                      MetronomeInitial() => IconButton(
-                        icon: const Icon(Icons.play_arrow),
-                        iconSize: 80,
-                        color: Colors.black,
-                        onPressed: () {
-                          context.read<MetronomeBloc>().add(MetronomeStarted());
-                        }
-                      ),
-                      MetronomeRun() => IconButton(
+                      MetronomeOn() => IconButton(
                         icon: const Icon(Icons.pause),
                         iconSize: 80,
                         color: Colors.black,
                         onPressed: () {
-                          context.read<MetronomeBloc>().add(MetronomePaused());
+                          context.read<MetronomeBloc>().add(MetronomeTurnedOff());
                         }
                       ),
-                      MetronomePause() => IconButton(
+                      MetronomeOff() => IconButton(
                         icon: const Icon(Icons.play_arrow),
                         iconSize: 80,
                         color: Colors.black,
                         onPressed: () {
-                          context.read<MetronomeBloc>().add(MetronomeResumed());
+                          context.read<MetronomeBloc>().add(MetronomeTurnedOn());
                         }
                       ),
                     };
                   }
                 ) 
-
-
-
-              ))
+              )
             ]
           )
         ),
