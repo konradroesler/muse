@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:muse/metronome/metronome.dart';
+// import 'package:muse/metronome/metronome.dart';
+import 'package:muse/tuner/tuner.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -7,7 +8,7 @@ class App extends StatelessWidget {
   @override 
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const MetronomePage(),
+      home: const TunerPage(),
     );
   }
 }

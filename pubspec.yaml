@@ -13,11 +13,20 @@ dependencies:
     sdk: flutter
 
   english_words: ^4.0.0
+
   provider: ^6.0.0
-  audioplayers: ^6.0.0
   bloc: 
   flutter_bloc: 
   equatable:
+
+  record:
+  audioplayers:
+  pitch_detector_dart:
+  pitchupdart:
+
+  permission_handler:
+
+  buffered_list_stream:
 
 dev_dependencies:
   flutter_test:
