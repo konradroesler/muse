@@ -14,3 +14,9 @@ final class TunerRecordingStarted extends TunerEvent {
 final class TunerRecordingEnded extends TunerEvent {
   const TunerRecordingEnded();
 }
+
+final class _TunerPitchChanged extends TunerEvent {
+  const _TunerPitchChanged(this.note, this.pitch);
+  final String note;
+  final int pitch;
+}
