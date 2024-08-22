@@ -25,7 +25,6 @@ class TunerView extends StatelessWidget {
           const SizedBox(height: 20),
           BlocBuilder<TunerBloc, TunerState>(
             builder: (context, state) {
-              print('rebuilt');
               return switch (state) {
                 TunerRecording() => FloatingActionButton.large(
                   onPressed: () {

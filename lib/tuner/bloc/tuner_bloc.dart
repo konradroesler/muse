@@ -77,6 +77,5 @@ class TunerBloc extends Bloc<TunerEvent, TunerState> {
 
   void _onPitchChanged(event, emit) {
     emit(TunerRecording(event.note, event.pitch));
-    print('abc note: ${event.note}, pitch: ${event.pitch}');
   }
 }

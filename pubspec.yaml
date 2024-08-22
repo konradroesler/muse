@@ -28,6 +28,19 @@ dependencies:
 
   buffered_list_stream:
 
+  path_provider:
+  sqflite:
+  file_picker:
+
+  path:
+
+  tracks_api:
+    path: packages/tracks_api
+  local_storage_tracks_api:
+    path: packages/local_storage_tracks_api
+  tracks_repository:
+    path: packages/tracks_repository
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
