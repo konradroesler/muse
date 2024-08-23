@@ -109,6 +109,13 @@
   <!-- Permission options for the `assistant` group -->
   <key>NSSiriUsageDescription</key>
   <string>The example app would like access to Siri Kit to demonstrate requesting authorization.</string>
+
+    <!-- Because of an error 'Info.plist contained no UIScene cinfiguration dictionary' -->
+    <key>UIApplicationSceneManifest</key>
+    <dict>
+        <key>UISceneConfigurations</key>
+        <dict/>
+    </dict>
  
 </dict>
 </plist>

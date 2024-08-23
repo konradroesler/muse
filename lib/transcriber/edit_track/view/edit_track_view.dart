@@ -28,7 +28,7 @@ class EditTrackView extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.all(16),
             child: Column(
-              children: [_NameField()],
+              children: [SizedBox(height: 50), _NameField()],
             ),
           ),
         ),
@@ -50,7 +50,7 @@ class _NameField extends StatelessWidget {
       initialValue: state.name,
       decoration: InputDecoration(
         enabled: !state.status.isLoadingOrSuccess,
-        labelText: 'editTrakTitleLabel',
+        labelText: 'Edit Track Name',
         hintText: hintText,
       ),
       maxLength: 50,

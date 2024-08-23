@@ -1,3 +1,6 @@
+// import 'dart:io';
+// import 'dart:js_interop_unsafe';
+
 import 'package:flutter/widgets.dart';
 import 'package:muse/bootstrap.dart';
 import 'package:local_storage_tracks_api/local_storage_tracks_api.dart';
@@ -8,7 +11,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final dbPath = await getDatabasesPath();
-  final path = join(dbPath, 'tracks_database.db');
+
+  final path = join(dbPath, 'tracks_database2.db');
+  // !! deletes db from last run
+  // File(path).deleteSync();
 
   final tracksApi = LocalStorageTracksApi(
     database: await openDatabase(
@@ -19,7 +25,7 @@ Future<void> main() async {
           CREATE TABLE tracks (
             id TEXT PRIMARY KEY,
             name TEXT NOT NULL,
-            audioFile BLOB NOT NULL
+            file BLOB NOT NULL
           );
         ''');
       }
