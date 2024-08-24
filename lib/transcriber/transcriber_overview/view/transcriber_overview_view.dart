@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:muse/transcriber/edit_track/edit_track.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:tracks_repository/tracks_repository.dart';
 
@@ -42,9 +41,7 @@ class TranscriberOverviewView extends StatelessWidget {
                         .add(TranscriberOverviewTrackDeleted(track));
                     },
                     onTap: () {
-                      Navigator.of(context).push(
-                        EditTrackPage.route(track: track),
-                      );
+                      // TODO open audio player
                     },
                   )
               ]
@@ -62,7 +59,6 @@ class TranscriberOverviewView extends StatelessWidget {
             final bytes = await file.readAsBytes();
             final track = Track(name: name, file: bytes);
             if (!context.mounted) return;
-            print('sending..');
             context.read<TranscriberOverviewBloc>().add(TranscriberOverviewTrackAdded(track));
           }
         },

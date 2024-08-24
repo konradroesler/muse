@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muse/transcriber/edit_track/view/edit_track_page.dart';
 import 'package:tracks_repository/tracks_repository.dart';
 
 class TrackListTile extends StatelessWidget {
@@ -42,7 +43,19 @@ class TrackListTile extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
-        trailing: onTap == null ? null : const Icon(Icons.chevron_right)
+        trailing: PopupMenuButton(
+          itemBuilder: (_) => [
+            PopupMenuItem(
+              child: TextButton(
+                child: Text('Edit'),
+                onPressed: () {
+                  Navigator.of(context).push(EditTrackPage.route(track: track));
+                }
+              )
+              
+            )
+          ],
+        )
       ),
     );
   }

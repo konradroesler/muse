@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/edit_track_bloc.dart';
@@ -47,6 +46,7 @@ class _NameField extends StatelessWidget {
 
     return TextFormField(
       key: const Key('editTrackView_name_formField'),
+      cursorOpacityAnimates: false,
       initialValue: state.name,
       decoration: InputDecoration(
         enabled: !state.status.isLoadingOrSuccess,
@@ -55,8 +55,8 @@ class _NameField extends StatelessWidget {
       ),
       maxLength: 50,
       inputFormatters: [
-        LengthLimitingTextInputFormatter(50),
-        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9\s]')),
+        // LengthLimitingTextInputFormatter(50),
+        //FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9\s]')),
       ],
       onChanged: (value) {
         context.read<EditTrackBloc>().add(EditTrackNameChanged(value));
