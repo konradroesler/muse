@@ -1,20 +1,25 @@
-// import 'dart:io';
-// import 'dart:js_interop_unsafe';
+import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:muse/bootstrap.dart';
 import 'package:local_storage_tracks_api/local_storage_tracks_api.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final dbPath = await getDatabasesPath();
+  String dbPath;
+
+  if (Platform.isIOS) {
+    final libDir = await getLibraryDirectory();
+    dbPath = libDir.path;
+  } else {
+    dbPath = await getDatabasesPath();
+  }
 
   final path = join(dbPath, 'tracks_database2.db');
-  // !! deletes db from last run
-  // File(path).deleteSync();
 
   final tracksApi = LocalStorageTracksApi(
     database: await openDatabase(
