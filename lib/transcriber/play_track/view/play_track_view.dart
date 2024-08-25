@@ -10,31 +10,35 @@ class PlayTrackView extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO implement slider and play/stop button
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 300,
-              child: Text(
-                context.read<PlayTrackBloc>().track.name,
-                style: const TextStyle(fontSize: 16),
-                textAlign: TextAlign.center,
-              ),
+      body: BlocBuilder<PlayTrackBloc, PlayTrackState>(
+        builder: (context, state) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 300,
+                  child: Text(
+                    context.read<PlayTrackBloc>().track.name,
+                    style: const TextStyle(fontSize: 16),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                FloatingActionButton(
+                  onPressed: () {
+                    context.read<PlayTrackBloc>().add(const PlayPauseButtonPressed());
+                  },
+                  child: Icon(
+                    // TODO change icon based on playing status
+                    state.status.isPlaying ? Icons.pause : Icons.play_arrow
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 16),
-            FloatingActionButton(
-              onPressed: () {
-                // TODO toggle audio player
-              },
-              child: Icon(
-                // TODO change icon based on playing status
-                Icons.play_arrow
-              ),
-            ),
-          ],
-        ),
+          );
+        } 
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

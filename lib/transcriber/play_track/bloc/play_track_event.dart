@@ -6,3 +6,7 @@ sealed class PlayTrackEvent extends Equatable {
   @override 
   List<Object> get props => [];
 }
+
+final class PlayPauseButtonPressed extends PlayTrackEvent {
+  const PlayPauseButtonPressed();
+}

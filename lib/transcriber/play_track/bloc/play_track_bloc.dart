@@ -9,8 +9,20 @@ class PlayTrackBloc extends Bloc<PlayTrackEvent, PlayTrackState> {
   PlayTrackBloc({
     required this.tracksRepository,
     required this.track,
-  }) : super(PlayTrackState(track: track));
+  }) : super(PlayTrackState(track: track)) {
+    on<PlayPauseButtonPressed>(_onPlayPauseButtonPressed);
+  }
 
-  final TracksRepository tracksRepository;
   Track track;
+  final TracksRepository tracksRepository;
+  // TODO add audio player
+
+  void _onPlayPauseButtonPressed(event, emit) {
+    // TODO implement actual audio player logic
+    if (state.status.isPlaying) {
+      emit(state.copyWith(status: PlayTrackStatus.paused));
+    } else {
+      emit(state.copyWith(status: PlayTrackStatus.playing));
+    }
+  }
 }

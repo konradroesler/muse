@@ -2,7 +2,7 @@ part of 'play_track_bloc.dart';
 
 enum PlayTrackStatus { initial, playing, paused }
 
-extension on PlayTrackStatus {
+extension PlayTrackStatusX on PlayTrackStatus {
   bool get isPlaying => this == PlayTrackStatus.playing;
 }
 
