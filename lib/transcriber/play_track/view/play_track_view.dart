@@ -8,7 +8,7 @@ class PlayTrackView extends StatelessWidget {
 
   @override 
   Widget build(BuildContext context) {
-    // TODO implement slider and play/stop button
+    // TODO implement slider
     return Scaffold(
       body: BlocBuilder<PlayTrackBloc, PlayTrackState>(
         builder: (context, state) {
