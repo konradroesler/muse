@@ -14,3 +14,4 @@ dependencies:
 dev_dependencies:
   sqflite:
   path_provider:
+  path:

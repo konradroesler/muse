@@ -1,7 +1,9 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path/path.dart';
 import 'package:tracks_repository/tracks_repository.dart';
+import 'package:utils/utils.dart';
 
 part 'play_track_event.dart';
 part 'play_track_state.dart';
@@ -22,8 +24,8 @@ class PlayTrackBloc extends Bloc<PlayTrackEvent, PlayTrackState> {
     // TODO implement actual audio player logic
     switch (state.status) {
       case PlayTrackStatus.initial : {
-        // CRITICAL DOES NOT WORK
-        await audioPlayer.play(BytesSource(track.file));
+        final audioFileLocation = '${join(await utilsGetDatabasePath(), track.id)}.${await getCorrectFileExtension(track.id)}';
+        await audioPlayer.play(DeviceFileSource(audioFileLocation));
         emit(state.copyWith(status: PlayTrackStatus.playing));
       }
       case PlayTrackStatus.playing : {

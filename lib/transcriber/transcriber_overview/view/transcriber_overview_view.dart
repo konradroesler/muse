@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:path/path.dart';
+import 'package:utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,12 +55,18 @@ class TranscriberOverviewView extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: false);
-          print(result?.files.single.path!);
           if (result != null) {
             final file = File(result.files.single.path!);
             final name = result.files.single.name;
             final bytes = await file.readAsBytes();
             final track = Track(name: name, file: bytes);
+
+            // new, working
+            final dbPath = await utilsGetDatabasePath();
+            final fileExtensionString = utilsGetFileExtensionAsString(name);
+            final localStorageLocationPath = join(dbPath, '${track.id}.$fileExtensionString');
+            await file.copy(localStorageLocationPath);
+
             if (!context.mounted) return;
             context.read<TranscriberOverviewBloc>().add(TranscriberOverviewTrackAdded(track));
           }
