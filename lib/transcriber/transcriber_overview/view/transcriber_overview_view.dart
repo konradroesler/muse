@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:muse/transcriber/play_track/play_track.dart';
 import 'package:tracks_repository/tracks_repository.dart';
 
 import '../bloc/transcriber_overview_bloc.dart';
@@ -41,7 +42,7 @@ class TranscriberOverviewView extends StatelessWidget {
                         .add(TranscriberOverviewTrackDeleted(track));
                     },
                     onTap: () {
-                      // TODO open audio player
+                      Navigator.of(context).push(PlayTrackPage.route(track: track));
                     },
                   )
               ]
