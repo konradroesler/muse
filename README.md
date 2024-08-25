@@ -11,10 +11,10 @@ Mobile application to learn and practice music.
 
 ### TODO now
 
-- remove file column from db
-- remove file field from track model
-- instead of giving picked file as argument for the Track constructor, copy file directrly to '$dbPath/${track.id}.${fileExtension}'
+- remove file column from db X
+- remove file field from track model X
+- instead of giving picked file as argument for the Track constructor, copy file directrly to '$dbPath/${track.id}.${fileExtension}' X
 
 #### as a result
 - reintroduce Track into PlayTrackState
-- change LocalStorageTrackApi accordingly
+- change LocalStorageTrackApi accordingly X

@@ -12,7 +12,7 @@ class PlayTrackBloc extends Bloc<PlayTrackEvent, PlayTrackState> {
   PlayTrackBloc({
     required this.tracksRepository,
     required this.track,
-  }) : super(PlayTrackState(name: track.name, id: track.id)) {
+  }) : super(PlayTrackState(track: track)) {
     on<PlayPauseButtonPressed>(_onPlayPauseButtonPressed);
   }
 
@@ -21,7 +21,6 @@ class PlayTrackBloc extends Bloc<PlayTrackEvent, PlayTrackState> {
   final AudioPlayer audioPlayer = AudioPlayer();
 
   void _onPlayPauseButtonPressed(event, emit) async {
-    // TODO implement actual audio player logic
     switch (state.status) {
       case PlayTrackStatus.initial : {
         final audioFileLocation = '${join(await utilsGetDatabasePath(), track.id)}.${await getCorrectFileExtension(track.id)}';

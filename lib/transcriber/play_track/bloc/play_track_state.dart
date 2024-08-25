@@ -9,30 +9,26 @@ extension PlayTrackStatusX on PlayTrackStatus {
 final class PlayTrackState extends Equatable {
   const PlayTrackState({
     this.status = PlayTrackStatus.initial,
-    required this.name,
-    required this.id,
+    required this.track,
     this.progress = 0,
   }); 
 
   final PlayTrackStatus status;
-  final String name;
-  final String id;
+  final Track track;
   final double progress;
 
   PlayTrackState copyWith({
     PlayTrackStatus? status,
-    String? name,
-    String? id,
+    Track? track,
     double? progress,
   }) {
     return PlayTrackState(
       status: status ?? this.status,
-      name: name ?? this.name,
-      id: id ?? this.id,
+      track: track ?? this.track,
       progress: progress ?? this.progress,
     );
   }
 
   @override 
-  List<Object> get props => [status, name, id, progress];
+  List<Object> get props => [status, track, progress];
 }
