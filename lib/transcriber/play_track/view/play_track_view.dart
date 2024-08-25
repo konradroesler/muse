@@ -31,7 +31,6 @@ class PlayTrackView extends StatelessWidget {
                     context.read<PlayTrackBloc>().add(const PlayPauseButtonPressed());
                   },
                   child: Icon(
-                    // TODO change icon based on playing status
                     state.status.isPlaying ? Icons.pause : Icons.play_arrow
                   ),
                 ),
