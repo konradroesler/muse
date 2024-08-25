@@ -12,3 +12,7 @@ Future<String> utilsGetDatabasePath() async {
   }
   return dbPath;
 } 
+
+String utilsGetFileExtensionAsString(String fileName) {
+  return fileName.split('.').last;
+}
