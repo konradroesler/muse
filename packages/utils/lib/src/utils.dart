@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
+enum AudioFileExtensions { mp3, wav, m4a }
+
 Future<String> utilsGetDatabasePath() async {
   String dbPath;
   if (Platform.isIOS) {
