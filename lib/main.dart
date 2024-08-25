@@ -10,7 +10,7 @@ Future<void> main() async {
   
   String dbPath = await utilsGetDatabasePath();
 
-  final path = join(dbPath, 'tracks_database2.db');
+  final path = join(dbPath, 'tracks_database3.db');
 
   final tracksApi = LocalStorageTracksApi(
     database: await openDatabase(
@@ -20,8 +20,7 @@ Future<void> main() async {
         await db.execute('''
           CREATE TABLE tracks (
             id TEXT PRIMARY KEY,
-            name TEXT NOT NULL,
-            file BLOB NOT NULL
+            name TEXT NOT NULL
           );
         ''');
       }

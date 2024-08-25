@@ -58,10 +58,8 @@ class TranscriberOverviewView extends StatelessWidget {
           if (result != null) {
             final file = File(result.files.single.path!);
             final name = result.files.single.name;
-            final bytes = await file.readAsBytes();
-            final track = Track(name: name, file: bytes);
+            final track = Track(name: name);
 
-            // new, working
             final dbPath = await utilsGetDatabasePath();
             final fileExtensionString = utilsGetFileExtensionAsString(name);
             final localStorageLocationPath = join(dbPath, '${track.id}.$fileExtensionString');

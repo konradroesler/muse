@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:equatable/equatable.dart';
 import 'package:uuid/uuid.dart';
 
@@ -7,7 +5,6 @@ class Track extends Equatable {
   Track({
     String? id,
     required this.name,
-    required this.file,
   }) : assert(
       id == null || id.isNotEmpty,
       'id must be null or not emptry',
@@ -16,17 +13,14 @@ class Track extends Equatable {
 
   final String id;
   final String name;
-  final Uint8List file;
 
   Track copyWith({
     String? id,
     String? name,
-    Uint8List? file,
   }) {
     return Track(
       id: id ?? this.id,
       name: name ?? this.name,
-      file: file ?? this.file,
     );
   }
 
@@ -34,7 +28,6 @@ class Track extends Equatable {
     return <String, dynamic>{
       'id': id,
       'name': name,
-      'file': file,
     };
   }
 
@@ -42,11 +35,9 @@ class Track extends Equatable {
     return Track(
       id: map['id'],
       name: map['name'],
-      file: map['file'],
     );
   }
 
   @override 
-  List<Object> get props => [id, name, file];
-
+  List<Object> get props => [id, name];
 }
