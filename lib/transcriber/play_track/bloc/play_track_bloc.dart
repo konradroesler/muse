@@ -9,7 +9,7 @@ class PlayTrackBloc extends Bloc<PlayTrackEvent, PlayTrackState> {
   PlayTrackBloc({
     required this.tracksRepository,
     required this.track,
-  }) : super(const PlayTrackInitial());
+  }) : super(PlayTrackState(track: track));
 
   final TracksRepository tracksRepository;
   Track track;
