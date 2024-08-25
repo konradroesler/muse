@@ -11,10 +11,8 @@ Mobile application to learn and practice music.
 
 ### TODO now
 
-- remove file column from db X
-- remove file field from track model X
-- instead of giving picked file as argument for the Track constructor, copy file directrly to '$dbPath/${track.id}.${fileExtension}' X
+- prevent audio player from playing multiple tracks at once 
 
-#### as a result
-- reintroduce Track into PlayTrackState X
-- change LocalStorageTrackApi accordingly X
+reproduce: play audio, go to overview, go to track again, press play again
+
+- emit correct state on audio player completion
