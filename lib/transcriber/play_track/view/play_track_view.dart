@@ -6,6 +6,18 @@ class PlayTrackView extends StatelessWidget {
   @override 
   Widget build(BuildContext context) {
     // TODO implement slider and play/stop button
-    return const Text('PlayTrackView', style: TextStyle(fontSize: 24));
+    return Scaffold(
+      body: const Center(
+        child: Text(
+          'Play Track', style: TextStyle(fontSize: 24)
+        )
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        child: const Icon(Icons.exit_to_app),
+      ),
+    );
   }
 }
