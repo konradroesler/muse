@@ -40,6 +40,8 @@ dependencies:
     path: packages/local_storage_tracks_api
   tracks_repository:
     path: packages/tracks_repository
+  utils:
+    path: packages/utils
 
 dev_dependencies:
   flutter_test:
