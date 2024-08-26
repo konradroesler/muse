@@ -11,8 +11,7 @@ Mobile application to learn and practice music.
 
 ### TODO now
 
-- prevent audio player from playing multiple tracks at once X
+- implement slider UI to move around the track
 
-reproduce: play audio, go to overview, go to track again, press play again
-
-- emit correct state on audio player completion X
+step 1: build the UI 
+step 2: hook up to PlayTrackBloc
