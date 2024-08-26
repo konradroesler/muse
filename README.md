@@ -15,4 +15,4 @@ Mobile application to learn and practice music.
 
 reproduce: play audio, go to overview, go to track again, press play again
 
-- emit correct state on audio player completion
+- emit correct state on audio player completion X

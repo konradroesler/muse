@@ -14,3 +14,7 @@ final class PlayPauseButtonPressed extends PlayTrackEvent {
 final class ReturnToOverviewButtonPressed extends PlayTrackEvent {
   const ReturnToOverviewButtonPressed();
 }
+
+final class AudioPlayerCompleted extends PlayTrackEvent {
+  const AudioPlayerCompleted();
+}
