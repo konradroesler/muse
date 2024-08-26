@@ -41,6 +41,7 @@ class PlayTrackView extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          context.read<PlayTrackBloc>().add(const ReturnToOverviewButtonPressed());
           Navigator.of(context).pop();
         },
         child: const Icon(Icons.exit_to_app),

@@ -10,3 +10,7 @@ sealed class PlayTrackEvent extends Equatable {
 final class PlayPauseButtonPressed extends PlayTrackEvent {
   const PlayPauseButtonPressed();
 }
+
+final class ReturnToOverviewButtonPressed extends PlayTrackEvent {
+  const ReturnToOverviewButtonPressed();
+}

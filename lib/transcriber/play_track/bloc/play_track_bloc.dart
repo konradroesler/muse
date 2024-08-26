@@ -14,6 +14,7 @@ class PlayTrackBloc extends Bloc<PlayTrackEvent, PlayTrackState> {
     required this.track,
   }) : super(PlayTrackState(track: track)) {
     on<PlayPauseButtonPressed>(_onPlayPauseButtonPressed);
+    on<ReturnToOverviewButtonPressed>(_onReturnToOverviewButtonPressed);
   }
 
   Track track;
@@ -36,5 +37,12 @@ class PlayTrackBloc extends Bloc<PlayTrackEvent, PlayTrackState> {
         emit(state.copyWith(status: PlayTrackStatus.playing));
       }
     }
+  }
+
+  void _onReturnToOverviewButtonPressed(event, emit) async {
+    if (state.status.isPlaying) {
+      await audioPlayer.pause();
+    }
+    await audioPlayer.dispose();
   }
 }

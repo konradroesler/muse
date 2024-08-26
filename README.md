@@ -11,7 +11,7 @@ Mobile application to learn and practice music.
 
 ### TODO now
 
-- prevent audio player from playing multiple tracks at once 
+- prevent audio player from playing multiple tracks at once X
 
 reproduce: play audio, go to overview, go to track again, press play again
 
