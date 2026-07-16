@@ -4,11 +4,11 @@
 
 Muse is a Flutter app for music practice. It aims to bring together a collection of tools which help you practice: a metronome, a tuner, and a transcription tool.
 
-This is a work in progress and would need a considerable amount of work to be a polished product and publisheabll, but I consider it presentable nontheless. :)
+This is a work in progress and would need a considerable amount of work to be a polished product and publishable, but I consider it presentable nontheless. :)
 
 ## Motivation
 
-Learning an instrument benefits from regular, deliberate practice. Muse is being built as a focused collection of tools that removes friction from that process—whether that means keeping time, checking intonation, or working through a recorded track. It was inspired by learning the saxophone, but is intended to be useful for musicians more broadly.
+Learning an instrument benefits from regular, deliberate practice. Muse is being built as a focused collection of tools that help you practice, whether that means keeping time, checking intonation, or working through a recorded track. These tools exist, but I find myself having a whole folder of apps on my phone which in sum cover all the tools I need, but I haven't found one which does it all.
 
 ## Current features
 
